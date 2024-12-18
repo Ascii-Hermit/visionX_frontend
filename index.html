@@ -4,48 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reflection Removal</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Upload Image for Reflection Removal</h1>
-    <input type="file" id="image-upload" accept="image/*">
-    <button onclick="processImage()">Upload and Process Image</button>
-    
-    <h2>Processed Image:</h2>
-    <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
-    
-    <script>
-        function processImage() {
-            const fileInput = document.getElementById('image-upload');
-            const file = fileInput.files[0];
+    <div class="container">
+        <h1>Upload a video for reflection removal</h1>
+        <form id="upload-form" onsubmit="event.preventDefault(); uploadFile();">
+            <input type="file" id="file-input" name="file" accept="video/*" />
+            <button type="submit">Upload Video</button>
+        </form>
+        
+        <div id="output"></div>  <!-- This is where the video or image will be displayed -->
+    </div>
 
-            if (!file) {
-                alert('Please select an image');
-                return;
-            }
-
-            const formData = new FormData();
-            formData.append("file", file);
-
-            fetch('http://127.0.0.1:5000/process', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.message === 'Image processed successfully') {
-                    // Assuming the server returns base64-encoded image data
-                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
-                    document.getElementById('processed-image').src = processedImageSrc;
-                    document.getElementById('processed-image').style.display = 'block';
-                } else {
-                    alert('Error processing image');
-                }
-            })
-            .catch(error => {
-                console.error('Error processing image:', error);
-                alert('Error processing image');
-            });
-        }
-    </script>
+    <script src="script.js"></script>
 </body>
 </html>
