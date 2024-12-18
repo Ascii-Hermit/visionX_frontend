@@ -1,32 +1,39 @@
-function uploadFile() {
-    const fileInput = document.getElementById('file-input');
-    const file = fileInput.files[0];
-    const formData = new FormData();
-    formData.append('file', file);
+document.getElementById('upload-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
 
-    fetch('http://127.0.0.1:5000/process', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.error) {
-            alert(data.error);
-        } else {
-            if (file.type.startsWith('image')) {
-                const imageElement = document.getElementById('output-image');
-                imageElement.src = 'data:image/jpeg;base64,' + data.image_data;
-                imageElement.style.display = 'block';  // Show the image
-                document.getElementById('output-video').style.display = 'none';  // Hide video
-            } else if (file.type.startsWith('video')) {
-                const videoElement = document.getElementById('output-video');
-                videoElement.src = 'data:video/mp4;base64,' + data.video_data;
-                videoElement.style.display = 'block';  // Show the video
-                document.getElementById('output-image').style.display = 'none';  // Hide image
+    const fileInput = document.getElementById('media-upload');
+    const file = fileInput.files[0];
+
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
+
+        // Send the file to the backend for processing
+        fetch('http://localhost:5000/process', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
+                if (file.type.startsWith('image')) {
+                    // Display the processed image
+                    const outputImage = document.getElementById('output-image');
+                    outputImage.src = data.processed_image_url;
+                    outputImage.style.display = 'block';
+                } else if (file.type.startsWith('video')) {
+                    // Display the processed video
+                    const outputVideo = document.getElementById('output-video');
+                    outputVideo.src = data.processed_video_url;
+                    outputVideo.style.display = 'block';
+                }
+            } else {
+                alert('Error processing file: ' + data.error);
             }
-        }
-    })
-    .catch(error => {
-        alert('Error processing file: ' + error);
-    });
-}
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the file.');
+        });
+    }
+});

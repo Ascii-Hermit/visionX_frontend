@@ -8,13 +8,16 @@ body {
     margin: 0 auto;
 }
 
-img, video {
+h1 {
+    color: #2c3e50;
+}
+
+#output-container {
     margin-top: 20px;
-    border: 2px solid #2c3e50;
-    padding: 10px;
-    max-width: 100%;
 }
 
 #output-image, #output-video {
-    display: none;
+    margin-top: 20px;
+    border: 2px solid #2c3e50;
+    padding: 10px;
 }
