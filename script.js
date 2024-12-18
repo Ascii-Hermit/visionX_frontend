@@ -1,5 +1,7 @@
-function processMedia() {
-    const fileInput = document.getElementById('media-upload');
+document.getElementById('uploadForm').addEventListener('submit', async (event) => {
+    event.preventDefault(); // Prevent the default form submission behavior
+
+    const fileInput = document.getElementById('fileInput');
     const file = fileInput.files[0];
 
     if (!file) {
@@ -10,38 +12,31 @@ function processMedia() {
     const formData = new FormData();
     formData.append('file', file);
 
-    // Show the loading section
-    document.getElementById('upload-section').style.display = 'none';
-    document.getElementById('loading-section').style.display = 'block';
-
-    fetch('http://localhost:5000/process', {
-        method: 'POST',
-        body: formData,
-    })
-        .then(response => response.json())
-        .then(data => {
-            // Hide loading section
-            document.getElementById('loading-section').style.display = 'none';
-
-            if (data.media_type === 'image') {
-                const outputImage = document.getElementById('processed-image');
-                outputImage.src = data.media_data; // Base64 image data
-                outputImage.style.display = 'block';
-                document.getElementById('processed-video').style.display = 'none';
-            } else if (data.media_type === 'video') {
-                const videoSource = document.getElementById('video-source');
-                videoSource.src = data.media_data; // Base64 video data or URL
-                videoSource.parentElement.load(); // Reload the video element
-                videoSource.parentElement.style.display = 'block';
-                document.getElementById('processed-image').style.display = 'none';
-            }
-
-            document.getElementById('output-section').style.display = 'block';
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            alert('An error occurred while processing the file.');
-            document.getElementById('loading-section').style.display = 'none';
-            document.getElementById('upload-section').style.display = 'block';
+    try {
+        // Send POST request to backend
+        const response = await fetch('http://127.0.0.1:5000/process', {
+            method: 'POST',
+            body: formData,
         });
-}
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            alert(`Error: ${errorData.error}`);
+            return;
+        }
+
+        const data = await response.json();
+
+        // Check if image data is returned
+        if (data.image_data) {
+            // Set the processed image in the output container
+            const outputImage = document.getElementById('outputImage');
+            outputImage.src = `data:image/png;base64,${data.image_data}`;
+            outputImage.style.display = 'block'; // Ensure the image is visible
+        } else {
+            alert('Processed image data is not available.');
+        }
+    } catch (error) {
+        alert(`An error occurred: ${error.message}`);
+    }
+});
