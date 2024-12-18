@@ -1,40 +1,55 @@
-function processImage() {
-    const fileInput = document.getElementById('image-upload');
+document.getElementById('upload-form').addEventListener('submit', function(event) {
+    event.preventDefault(); // Prevent form submission
+
+    const fileInput = document.getElementById('media-upload');
     const file = fileInput.files[0];
 
-    if (!file) {
-        alert('Please select an image');
-        return;
-    }
+    if (file) {
+        const formData = new FormData();
+        formData.append('file', file);
 
-    // Hide the upload section and show loading spinner
-    document.getElementById('upload-section').style.display = 'none';
-    document.getElementById('loading-section').style.display = 'flex';
+        // Show loading section
+        document.getElementById('upload-section').style.display = 'none';
+        document.getElementById('loading-section').style.display = 'block';
 
-    const formData = new FormData();
-    formData.append("file", file);
-
-    fetch('http://localhost:5000/process', {
-        method: 'POST',
-        body: formData
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.message === 'Image processed successfully') {
-            const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data;
-            document.getElementById('processed-image').src = processedImageSrc;
+        // Send the file to the backend for processing
+        fetch('http://localhost:5000/process', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Hide loading section
             document.getElementById('loading-section').style.display = 'none';
-            document.getElementById('output-section').style.display = 'block';
-        } else {
-            alert('Error processing image');
+            
+            // Check if processing was successful
+            if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
+                document.getElementById('output-section').style.display = 'block';
+
+                if (file.type.startsWith('image')) {
+                    // Display the processed image
+                    const outputImage = document.getElementById('processed-image');
+                    outputImage.src = data.image_data; // Base64 image data from backend
+                    outputImage.style.display = 'block';
+                    document.getElementById('processed-video').style.display = 'none';
+                } else if (file.type.startsWith('video')) {
+                    // Display the processed video
+                    const outputVideo = document.getElementById('processed-video');
+                    const videoSource = document.getElementById('video-source');
+                    videoSource.src = data.video_url; // Video URL from backend
+                    outputVideo.load(); // Reload the video
+                    outputVideo.style.display = 'block';
+                    document.getElementById('processed-image').style.display = 'none';
+                }
+            } else {
+                alert('Error processing file: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred while processing the file.');
             document.getElementById('loading-section').style.display = 'none';
             document.getElementById('upload-section').style.display = 'block';
-        }
-    })
-    .catch(error => {
-        console.error('Error processing image:', error);
-        alert('Error processing image');
-        document.getElementById('loading-section').style.display = 'none';
-        document.getElementById('upload-section').style.display = 'block';
-    });
-}
+        });
+    }
+});
