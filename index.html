@@ -4,19 +4,48 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reflection Removal</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1>Upload Image or Video for Reflection Removal</h1>
-        <input type="file" id="media-upload" accept="image/*,video/*">
-        <button onclick="processMedia()">Upload and Process</button>
+    <h1>Upload Image for Reflection Removal</h1>
+    <input type="file" id="image-upload" accept="image/*">
+    <button onclick="processImage()">Upload and Process Image</button>
+    
+    <h2>Processed Image:</h2>
+    <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
+    
+    <script>
+        function processImage() {
+            const fileInput = document.getElementById('image-upload');
+            const file = fileInput.files[0];
 
-        <h2>Processed Output:</h2>
-        <img id="output-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
-        <video id="output-video" controls style="display: none; max-width: 100%;"></video>
-    </div>
+            if (!file) {
+                alert('Please select an image');
+                return;
+            }
 
-    <script src="script.js"></script>
+            const formData = new FormData();
+            formData.append("file", file);
+
+            fetch('http://127.0.0.1:5000/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Image processed successfully') {
+                    // Assuming the server returns base64-encoded image data
+                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
+                    document.getElementById('processed-image').src = processedImageSrc;
+                    document.getElementById('processed-image').style.display = 'block';
+                } else {
+                    alert('Error processing image');
+                }
+            })
+            .catch(error => {
+                console.error('Error processing image:', error);
+                alert('Error processing image');
+            });
+        }
+    </script>
 </body>
 </html>
