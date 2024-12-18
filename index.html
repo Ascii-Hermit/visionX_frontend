@@ -7,24 +7,26 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Upload Image for Reflection Removal</h1>
-        </header>
-        
-        <!-- File Upload Section -->
-        <div class="upload-section">
-            <input type="file" id="image-upload" accept="image/*">
-            <button onclick="processImage()" class="upload-btn">Upload and Process Image</button>
-        </div>
+    <header>
+        <h1>Reflection Removal</h1>
+        <p>Upload an image and remove reflections seamlessly.</p>
+    </header>
 
-        <!-- Preview Section -->
-        <div class="preview-section">
-            <h2>Processed Image:</h2>
-            <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
-        </div>
-    </div>
-    
+    <section id="upload-section" class="container">
+        <input type="file" id="image-upload" accept="image/*">
+        <button onclick="processImage()" class="btn upload-btn">Upload & Process</button>
+    </section>
+
+    <section id="loading-section" class="container" style="display: none;">
+        <div id="loading-spinner" class="spinner"></div>
+        <p>Processing your image...</p>
+    </section>
+
+    <section id="output-section" class="container">
+        <h2>Processed Image</h2>
+        <img id="processed-image" src="" alt="Processed Image" class="output-image">
+    </section>
+
     <script src="script.js"></script>
 </body>
 </html>
