@@ -1,74 +1,23 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f8f8;
-    margin: 0;
-    padding: 0;
-    color: #333;
+    text-align: center;
 }
 
 .container {
     width: 80%;
     margin: 0 auto;
-    text-align: center;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin-top: 50px;
 }
 
 h1 {
-    color: #B87A4A; /* Gold */
-    font-size: 2.5em;
-    margin-bottom: 20px;
+    color: #2c3e50;
 }
 
-.subtitle {
-    font-size: 1.2em;
-    margin-bottom: 20px;
-    color: #B87A4A;
-}
-
-.upload-section {
-    margin-bottom: 30px;
-}
-
-.upload-input {
-    padding: 10px;
-    font-size: 1em;
-    margin-right: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-}
-
-.upload-button {
-    padding: 10px 20px;
-    font-size: 1.1em;
-    color: white;
-    background-color: #B87A4A; /* Gold */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
-.upload-button:hover {
-    background-color: #C9905B; /* Lighter Gold */
-}
-
-.output-container {
+#output-container {
     margin-top: 20px;
 }
 
-.output-item {
+#output-image, #output-video {
     margin-top: 20px;
-    border: 2px solid #B87A4A; /* Gold */
+    border: 2px solid #2c3e50;
     padding: 10px;
-    border-radius: 10px;
-    background-color: #fff;
-}
-
-img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 10px;
 }
