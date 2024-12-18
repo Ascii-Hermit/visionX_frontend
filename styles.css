@@ -1,129 +1,23 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Poppins', sans-serif;
-    background-color: #f0f2f5;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-header {
+    font-family: Arial, sans-serif;
     text-align: center;
-    margin-bottom: 40px;
-}
-
-h1 {
-    font-size: 3rem;
-    color: #ff6347; /* Tomato red */
-    font-weight: bold;
-    letter-spacing: 1px;
-}
-
-p {
-    font-size: 1.2rem;
-    color: #555;
 }
 
 .container {
     width: 80%;
-    max-width: 600px;
     margin: 0 auto;
-    text-align: center;
 }
 
-/* Button Styling */
-.btn {
-    padding: 15px 30px;
-    font-size: 1rem;
-    background: linear-gradient(45deg, #ff6347, #ff1493); /* Gradient from tomato to deep pink */
-    color: white;
-    border: none;
-    border-radius: 50px;
-    cursor: pointer;
-    transition: all 0.3s ease;
+h1 {
+    color: #2c3e50;
+}
+
+#output-container {
     margin-top: 20px;
 }
 
-.btn:hover {
-    transform: scale(1.05);
-    background: linear-gradient(45deg, #ff1493, #ff6347);
-}
-
-input[type="file"] {
-    padding: 15px;
+#output-image, #output-video {
     margin-top: 20px;
-    border-radius: 50px;
-    border: 2px solid #ff6347;
-    background-color: white;
-    width: 100%;
-    font-size: 1rem;
-    transition: all 0.3s ease;
-}
-
-input[type="file"]:hover {
-    border-color: #ff1493;
-}
-
-/* Loading Section */
-#loading-section {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.spinner {
-    border: 5px solid #f3f3f3;
-    border-top: 5px solid #ff6347;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 10px;
-}
-
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-/* Output Section */
-#output-section {
-    margin-top: 40px;
-}
-
-.output-image {
-    width: 100%;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-    transition: all 0.3s ease;
-}
-
-.output-image:hover {
-    transform: scale(1.05);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    h1 {
-        font-size: 2rem;
-    }
-
-    .btn {
-        padding: 12px 25px;
-    }
-
-    input[type="file"] {
-        font-size: 0.9rem;
-    }
+    border: 2px solid #2c3e50;
+    padding: 10px;
 }
