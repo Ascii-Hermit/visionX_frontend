@@ -1,28 +1,29 @@
-document.getElementById('upload-form').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent form submission
-
+function processMedia() {
     const fileInput = document.getElementById('media-upload');
-    const file = fileInput.files[0];
+    const file = fileInput.files[0]; // Get the selected file
 
-    if (file) {
-        const formData = new FormData();
-        formData.append('file', file);
+    if (!file) {
+        alert('Please select a file to upload.');
+        return;
+    }
 
-        // Show loading section
-        document.getElementById('upload-section').style.display = 'none';
-        document.getElementById('loading-section').style.display = 'block';
+    const formData = new FormData();
+    formData.append('file', file); // Append the file to the form data
 
-        // Send the file to the backend for processing
-        fetch('http://localhost:5000/process', {
-            method: 'POST',
-            body: formData
-        })
+    // Show the loading section
+    document.getElementById('upload-section').style.display = 'none';
+    document.getElementById('loading-section').style.display = 'block';
+
+    // Send the file to the backend for processing
+    fetch('http://localhost:5000/process', {
+        method: 'POST',
+        body: formData,
+    })
         .then(response => response.json())
         .then(data => {
-            // Hide loading section
+            // Hide the loading section
             document.getElementById('loading-section').style.display = 'none';
-            
-            // Check if processing was successful
+
             if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
                 document.getElementById('output-section').style.display = 'block';
 
@@ -43,6 +44,7 @@ document.getElementById('upload-form').addEventListener('submit', function(event
                 }
             } else {
                 alert('Error processing file: ' + data.error);
+                document.getElementById('upload-section').style.display = 'block';
             }
         })
         .catch(error => {
@@ -51,5 +53,4 @@ document.getElementById('upload-form').addEventListener('submit', function(event
             document.getElementById('loading-section').style.display = 'none';
             document.getElementById('upload-section').style.display = 'block';
         });
-    }
-});
+}
