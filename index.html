@@ -4,26 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reflection Removal</title>
-    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Reflection Removal</h1>
-            <p>Upload an image to remove reflections and get a clean result!</p>
-        </header>
-
-        <section class="upload-section">
-            <input type="file" id="image-upload" accept="image/*">
-            <button onclick="processImage()" class="upload-btn">Upload and Process Image</button>
-        </section>
-
-        <section class="output-section">
-            <h2>Processed Image:</h2>
-            <img id="processed-image" src="" alt="Processed Image" class="output-image">
-        </section>
-    </div>
-
+    <h1>Upload Image for Reflection Removal</h1>
+    <input type="file" id="image-upload" accept="image/*">
+    <button onclick="processImage()">Upload and Process Image</button>
+    
+    <h2>Processed Image:</h2>
+    <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
+    
     <script>
         function processImage() {
             const fileInput = document.getElementById('image-upload');
@@ -44,7 +33,8 @@
             .then(response => response.json())
             .then(data => {
                 if (data.message === 'Image processed successfully') {
-                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data;
+                    // Assuming the server returns base64-encoded image data
+                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
                     document.getElementById('processed-image').src = processedImageSrc;
                     document.getElementById('processed-image').style.display = 'block';
                 } else {

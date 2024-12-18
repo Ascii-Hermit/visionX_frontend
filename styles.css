@@ -1,78 +1,23 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
 body {
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(135deg, #FFBB33, #FF6699);
-    color: #333;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+    font-family: Arial, sans-serif;
     text-align: center;
 }
 
-/* Container for content */
 .container {
     width: 80%;
-    max-width: 600px;
-    background-color: white;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    margin: 0 auto;
 }
 
-header h1 {
-    font-size: 2.5em;
-    color: #FF6699;
-    margin-bottom: 10px;
+h1 {
+    color: #2c3e50;
 }
 
-header p {
-    font-size: 1.1em;
-    color: #444;
-    margin-bottom: 30px;
+#output-container {
+    margin-top: 20px;
 }
 
-/* File upload section */
-.upload-section {
-    margin-bottom: 30px;
-}
-
-.upload-btn {
-    background-color: #FF6699;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1.2em;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.upload-btn:hover {
-    background-color: #FF3366;
-}
-
-/* Processed image section */
-.output-section {
-    margin-top: 40px;
-}
-
-.output-image {
-    max-width: 100%;
-    display: none;
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-}
-
-h2 {
-    font-size: 1.8em;
-    color: #FF6699;
-    margin-bottom: 20px;
+#output-image, #output-video {
+    margin-top: 20px;
+    border: 2px solid #2c3e50;
+    padding: 10px;
 }
