@@ -4,27 +4,44 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reflection Removal</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>Upload Image for Reflection Removal</h1>
-    <input type="file" id="image-upload" accept="image/*">
-    <button onclick="processImage()">Upload and Process Image</button>
-    
-    <h2>Processed Image:</h2>
-    <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
-    
+    <div class="container">
+        <header>
+            <h1>Reflection Removal</h1>
+            <p>Upload an image or video to remove reflections and enhance the visual quality.</p>
+        </header>
+
+        <section class="upload-section">
+            <h2>Upload Your Image or Video</h2>
+            <input type="file" id="media-upload" accept="image/*, video/*">
+            <button onclick="processMedia()">Upload and Process</button>
+        </section>
+
+        <section id="output-container">
+            <h2>Processed Output:</h2>
+            <div id="output-image-container">
+                <img id="output-image" src="" alt="Processed Image">
+            </div>
+            <div id="output-video-container">
+                <video id="output-video" controls></video>
+            </div>
+        </section>
+    </div>
+
     <script>
-        function processImage() {
-            const fileInput = document.getElementById('image-upload');
+        function processMedia() {
+            const fileInput = document.getElementById('media-upload');
             const file = fileInput.files[0];
 
             if (!file) {
-                alert('Please select an image');
+                alert('Please select an image or video');
                 return;
             }
 
             const formData = new FormData();
-            formData.append("file", file);
+            formData.append('file', file);
 
             fetch('http://127.0.0.1:5000/process', {
                 method: 'POST',
@@ -32,17 +49,23 @@
             })
             .then(response => response.json())
             .then(data => {
-                if (data.message === 'Image processed successfully') {
-                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data;
-                    document.getElementById('processed-image').src = processedImageSrc;
-                    document.getElementById('processed-image').style.display = 'block';
+                if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
+                    if (file.type.startsWith('image')) {
+                        const outputImage = document.getElementById('output-image');
+                        outputImage.src = 'data:image/jpeg;base64,' + data.processed_image_data;
+                        outputImage.style.display = 'block';
+                    } else if (file.type.startsWith('video')) {
+                        const outputVideo = document.getElementById('output-video');
+                        outputVideo.src = 'data:video/mp4;base64,' + data.processed_video_data;
+                        outputVideo.style.display = 'block';
+                    }
                 } else {
-                    alert('Error processing image');
+                    alert('Error processing file: ' + data.error);
                 }
             })
             .catch(error => {
-                console.error('Error processing image:', error);
-                alert('Error processing image');
+                console.error('Error:', error);
+                alert('An error occurred while processing the file.');
             });
         }
     </script>
