@@ -14,6 +14,7 @@
 
         <h2>Processed Image:</h2>
         <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
+        <p id="error-message" style="color: red; display: none;"></p>
     </div>
 
     <script>
@@ -40,14 +41,20 @@
                     const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
                     document.getElementById('processed-image').src = processedImageSrc;
                     document.getElementById('processed-image').style.display = 'block';
+                    document.getElementById('error-message').style.display = 'none';  // Hide error message
                 } else {
-                    alert('Error processing image: ' + data.error);
+                    displayError(data.error);
                 }
             })
             .catch(error => {
                 console.error('Error processing image:', error);
-                alert('Error processing image');
+                displayError('Error processing image');
             });
+        }
+
+        function displayError(message) {
+            document.getElementById('error-message').innerText = message;
+            document.getElementById('error-message').style.display = 'block';
         }
     </script>
 </body>
