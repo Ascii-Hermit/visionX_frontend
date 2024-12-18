@@ -3,47 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Upload an image or video and remove reflections seamlessly using AI-powered technology.">
     <title>Reflection Removal</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Reflection Removal</h1>
-        <p>Upload an image or video to remove reflections seamlessly.</p>
-    </header>
+    <h1>Upload Image for Reflection Removal</h1>
+    <div class="container">
+        <input type="file" id="image-upload" accept="image/*">
+        <button onclick="processImage()">Upload and Process Image</button>
 
-    <!-- Upload Section -->
-    <section id="upload-section" class="container">
-        <label for="media-upload" class="file-label">Choose an image or video:</label>
-        <input type="file" id="media-upload" accept="image/*,video/*" aria-label="Upload an image or video">
-        <button onclick="processMedia()" class="btn upload-btn">Upload & Process</button>
-    </section>
+        <h2>Processed Image:</h2>
+        <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
+    </div>
 
-    <!-- Loading Section -->
-    <section id="loading-section" class="container" style="display: none;">
-        <div id="loading-spinner" class="spinner" role="status" aria-live="polite"></div>
-        <p>Processing your media...</p>
-    </section>
+    <script>
+        function processImage() {
+            const fileInput = document.getElementById('image-upload');
+            const file = fileInput.files[0];
 
-    <!-- Output Section -->
-    <section id="output-section" class="container" style="display: none;">
-        <h2>Processed Output</h2>
-        <!-- Image Output -->
-        <img id="processed-image" src="" alt="Processed Image" class="output-media" style="display: none;">
-        <!-- Video Output -->
-        <video id="processed-video" controls class="output-media" style="display: none;">
-            <source id="video-source" src="" type="video/mp4">
-            Your browser does not support the video tag.
-        </video>
-    </section>
+            if (!file) {
+                alert('Please select an image');
+                return;
+            }
 
-    <!-- JavaScript -->
-    <script src="script.js"></script>
+            const formData = new FormData();
+            formData.append("file", file);
 
-    <!-- Fallback for Non-JS -->
-    <noscript>
-        <p>Please enable JavaScript to use the Reflection Removal tool.</p>
-    </noscript>
+            fetch('http://127.0.0.1:5000/process', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === 'Image processed successfully') {
+                    // Assuming the server returns base64-encoded image data
+                    const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
+                    document.getElementById('processed-image').src = processedImageSrc;
+                    document.getElementById('processed-image').style.display = 'block';
+                } else {
+                    alert('Error processing image: ' + data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Error processing image:', error);
+                alert('Error processing image');
+            });
+        }
+    </script>
 </body>
 </html>
