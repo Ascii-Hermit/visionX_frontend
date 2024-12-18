@@ -23,32 +23,20 @@ function processMedia() {
             // Hide loading section
             document.getElementById('loading-section').style.display = 'none';
 
-            if (data.message === 'Media processed successfully') {
-                if (data.media_type === 'image') {
-                    const outputImage = document.getElementById('processed-image');
-                    outputImage.src = data.media_data; // Set Base64 image data
-                    outputImage.style.display = 'block';
-
-                    // Hide video section
-                    document.getElementById('processed-video').style.display = 'none';
-                } else if (data.media_type === 'video') {
-                    const videoSource = document.getElementById('video-source');
-                    videoSource.src = data.media_data; // Set Base64 video data or URL
-                    videoSource.parentElement.load(); // Reload the video element
-                    videoSource.parentElement.style.display = 'block';
-
-                    // Hide image section
-                    document.getElementById('processed-image').style.display = 'none';
-                }
-
-                // Show the output section
-                document.getElementById('output-section').style.display = 'block';
-            } else {
-                alert('Error processing media: ' + (data.error || 'Unknown error'));
-                document.getElementById('upload-section').style.display = 'block';
+            if (data.media_type === 'image') {
+                const outputImage = document.getElementById('processed-image');
+                outputImage.src = data.media_data; // Base64 image data
+                outputImage.style.display = 'block';
+                document.getElementById('processed-video').style.display = 'none';
+            } else if (data.media_type === 'video') {
+                const videoSource = document.getElementById('video-source');
+                videoSource.src = data.media_data; // Base64 video data or URL
+                videoSource.parentElement.load(); // Reload the video element
+                videoSource.parentElement.style.display = 'block';
+                document.getElementById('processed-image').style.display = 'none';
             }
 
-            console.log('Backend Response:', data); // Debugging
+            document.getElementById('output-section').style.display = 'block';
         })
         .catch(error => {
             console.error('Error:', error);
