@@ -10,6 +10,7 @@ function processMedia() {
     const formData = new FormData();
     formData.append('file', file);
 
+    // Show the loading section
     document.getElementById('upload-section').style.display = 'none';
     document.getElementById('loading-section').style.display = 'block';
 
@@ -19,21 +20,35 @@ function processMedia() {
     })
         .then(response => response.json())
         .then(data => {
+            // Hide loading section
             document.getElementById('loading-section').style.display = 'none';
 
-            if (data.message === 'Image processed successfully') {
-                const outputImage = document.getElementById('processed-image');
-                outputImage.src = data.image_data; // Base64 image data from backend
-                outputImage.style.display = 'block';
+            if (data.message === 'Media processed successfully') {
+                if (data.media_type === 'image') {
+                    const outputImage = document.getElementById('processed-image');
+                    outputImage.src = data.media_data; // Set Base64 image data
+                    outputImage.style.display = 'block';
 
-                document.getElementById('processed-video').style.display = 'none';
+                    // Hide video section
+                    document.getElementById('processed-video').style.display = 'none';
+                } else if (data.media_type === 'video') {
+                    const videoSource = document.getElementById('video-source');
+                    videoSource.src = data.media_data; // Set Base64 video data or URL
+                    videoSource.parentElement.load(); // Reload the video element
+                    videoSource.parentElement.style.display = 'block';
+
+                    // Hide image section
+                    document.getElementById('processed-image').style.display = 'none';
+                }
+
+                // Show the output section
                 document.getElementById('output-section').style.display = 'block';
             } else {
-                alert('Error processing file: ' + (data.error || 'Unknown error'));
+                alert('Error processing media: ' + (data.error || 'Unknown error'));
                 document.getElementById('upload-section').style.display = 'block';
             }
 
-            console.log('Backend Response:', data); // Debugging response
+            console.log('Backend Response:', data); // Debugging
         })
         .catch(error => {
             console.error('Error:', error);
