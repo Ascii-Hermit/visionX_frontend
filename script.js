@@ -1,9 +1,9 @@
-function processMedia() {
-    const fileInput = document.getElementById('media-upload');
+function processImage() {
+    const fileInput = document.getElementById('image-upload');
     const file = fileInput.files[0];
 
     if (!file) {
-        alert('Please select an image or video');
+        alert('Please select an image');
         return;
     }
 
@@ -18,27 +18,18 @@ function processMedia() {
     .then(response => response.json())
     .then(data => {
         const outputImageContainer = document.getElementById('output-image-container');
-        const outputVideoContainer = document.getElementById('output-video-container');
         
-        if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
-            if (file.type.startsWith('image')) {
-                const outputImage = document.getElementById('output-image');
-                // Ensure that the image is properly base64 encoded
-                outputImage.src = 'data:image/jpeg;base64,' + data.processed_image_data;
-                outputImageContainer.style.display = 'block'; // Show image
-                outputVideoContainer.style.display = 'none'; // Hide video
-            } else if (file.type.startsWith('video')) {
-                const outputVideo = document.getElementById('output-video');
-                outputVideo.src = 'data:video/mp4;base64,' + data.processed_video_data;
-                outputVideoContainer.style.display = 'block'; // Show video
-                outputImageContainer.style.display = 'none'; // Hide image
-            }
+        if (data.message === 'Image processed successfully') {
+            const outputImage = document.getElementById('output-image');
+            // Ensure that the image is properly base64 encoded
+            outputImage.src = 'data:image/jpeg;base64,' + data.processed_image_data;
+            outputImageContainer.style.display = 'block'; // Show image
         } else {
-            alert('Error processing file: ' + data.error);
+            alert('Error processing image: ' + data.error);
         }
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('An error occurred while processing the file.');
+        alert('An error occurred while processing the image.');
     });
 }
