@@ -23,12 +23,15 @@ function processMedia() {
         if (data.message === 'Image processed successfully' || data.message === 'Video processed successfully') {
             if (file.type.startsWith('image')) {
                 const outputImage = document.getElementById('output-image');
+                // Ensure that the image is properly base64 encoded
                 outputImage.src = 'data:image/jpeg;base64,' + data.processed_image_data;
-                outputImageContainer.style.display = 'block';
+                outputImageContainer.style.display = 'block'; // Show image
+                outputVideoContainer.style.display = 'none'; // Hide video
             } else if (file.type.startsWith('video')) {
                 const outputVideo = document.getElementById('output-video');
                 outputVideo.src = 'data:video/mp4;base64,' + data.processed_video_data;
-                outputVideoContainer.style.display = 'block';
+                outputVideoContainer.style.display = 'block'; // Show video
+                outputImageContainer.style.display = 'none'; // Hide image
             }
         } else {
             alert('Error processing file: ' + data.error);
