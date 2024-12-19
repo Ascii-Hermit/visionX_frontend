@@ -15,12 +15,14 @@
 
     <!-- Video Processing -->
     <input type="file" id="video-upload" accept="video/*">
-    <button id="process-video" onclick="processVideo()">Upload and Process Video</button>
+    <button id="process-video" onclick="processVideo()">Upload and Display Video</button>
 
-    <!-- Buttons for Real-time Video and Stopping -->
-    <div id="output-container">
-        <button id="realtime-button" onclick="runRealTimeVideo()">Start Real-Time Video Processing</button>
-        <button id="stop-button" onclick="stopProcessing()">Stop Processing</button>
+    <!-- Placeholder for Matplotlib display -->
+    <div id="video-display">
+        <h2>Processed Video:</h2>
+        <div id="matplotlib-container">
+            <p>Matplotlib output will be displayed here.</p>
+        </div>
     </div>
 
     <script src="script.js"></script>
