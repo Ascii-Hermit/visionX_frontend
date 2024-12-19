@@ -12,19 +12,22 @@
     <h2>Image Upload:</h2>
     <input type="file" id="image-upload" accept="image/*">
     <button onclick="processImage()">Upload and Process Image</button>
+    <h3>Processed Image:</h3>
     <img id="processed-image" style="display: none; max-width: 100%;">
 
     <!-- Video Processing -->
     <h2>Video Upload:</h2>
     <input type="file" id="video-upload" accept="video/*">
     <button onclick="processVideo()">Upload and Process Video</button>
-    <video id="processed-video" controls style="display: none; max-width: 100%;"></video>
+    <h3>Processed Video:</h3>
+    <p>Processed video will be displayed on the server via Matplotlib.</p>
 
     <!-- Real-Time Processing -->
     <h2>Real-Time Video:</h2>
-    <button onclick="runRealTimeVideo()">Start Real-Time Video</button>
-    <button onclick="stopProcessing()">Stop Real-Time Video</button>
-    <img id="live-video" style="display: none; max-width: 100%;">
+    <button onclick="startRealTimeVideo()">Start Real-Time Video</button>
+    <button onclick="stopRealTimeVideo()">Stop Real-Time Video</button>
+    <h3>Real-Time Video Feed:</h3>
+    <img id="live-video" alt="Real-Time Video Feed" style="display: none; max-width: 100%;">
 
     <script src="script.js"></script>
 </body>
