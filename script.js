@@ -17,8 +17,7 @@ function processImage() {
     .then(response => response.json())
     .then(data => {
         if (data.message === 'Image processed successfully') {
-            // Assuming the server returns base64-encoded image data
-            const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data; 
+            const processedImageSrc = 'data:image/jpeg;base64,' + data.image_data;
             document.getElementById('processed-image').src = processedImageSrc;
             document.getElementById('processed-image').style.display = 'block';
         } else {
@@ -32,7 +31,7 @@ function processImage() {
 }
 
 function runRealTimeVideo() {
-    fetch('http://127.0.0.1:5000/realtime-video', {
+    fetch('http://127.0.0.1:5000/start-video', {
         method: 'POST'
     })
     .then(response => {
@@ -45,5 +44,22 @@ function runRealTimeVideo() {
     .catch(error => {
         console.error('Error starting real-time video processing:', error);
         alert('Error starting real-time video processing.');
+    });
+}
+
+function stopProcessing() {
+    fetch('http://127.0.0.1:5000/stop-video', {
+        method: 'POST'
+    })
+    .then(response => {
+        if (response.ok) {
+            alert('Processing stopped successfully.');
+        } else {
+            alert('Error stopping the process.');
+        }
+    })
+    .catch(error => {
+        console.error('Error stopping the process:', error);
+        alert('Error stopping the process.');
     });
 }
