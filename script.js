@@ -42,51 +42,19 @@ function processVideo() {
     const formData = new FormData();
     formData.append("file", file);
 
-    fetch('http://127.0.0.1:5000/process-video', {
+    fetch('http://127.0.0.1:5000/process-video-matplotlib', {
         method: 'POST',
         body: formData
     })
-    .then(response => response.blob())
-    .then(blob => {
-        const url = URL.createObjectURL(blob);
-        window.open(url, '_blank'); // Open processed video in a new tab
+    .then(response => {
+        if (response.ok) {
+            alert('Matplotlib will display the video in the server environment.');
+        } else {
+            alert('Error processing video.');
+        }
     })
     .catch(error => {
         console.error('Error processing video:', error);
-        alert('Error processing video');
-    });
-}
-
-function runRealTimeVideo() {
-    fetch('http://127.0.0.1:5000/start-video', {
-        method: 'POST'
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('Real-time video processing started successfully.');
-        } else {
-            alert('Error starting real-time video processing.');
-        }
-    })
-    .catch(error => {
-        console.error('Error starting real-time video processing:', error);
-        alert('Error starting real-time video processing.');
-    });
-}
-
-function stopProcessing() {
-    fetch('http://127.0.0.1:5000/stop-video', {
-        method: 'POST'
-    })
-    .then(response => {
-        if (response.ok) {
-            alert('Processing stopped successfully.');
-        } else {
-            alert('Error stopping the process.');
-        }
-    })
-    .catch(error => {
-        console.error('Error stopping the process:', error);
-        alert('Error stopping the process.');
+        alert('Error processing video.');
     });
 }
