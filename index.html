@@ -6,18 +6,19 @@
     <title>Reflection Removal</title>
 </head>
 <body>
-    <h1>Upload Image for Reflection Removal</h1>
+    <h1>Reflection Removal Interface</h1>
     <input type="file" id="image-upload" accept="image/*">
     <button onclick="processImage()">Upload and Process Image</button>
-    
+
     <h2>Processed Image:</h2>
     <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
-    
-    <!-- Button to trigger filerealtimevid.py -->
+
+    <!-- Buttons for Real-time Video and Stopping -->
     <div id="output-container">
-        <button id="realtime-button" onclick="runRealTimeVideo()">Run Real-Time Video Processing</button>
+        <button id="realtime-button" onclick="runRealTimeVideo()">Start Real-Time Video Processing</button>
+        <button id="stop-button" onclick="stopProcessing()">Stop Processing</button>
     </div>
-    
+
     <script src="script.js"></script>
 </body>
 </html>
