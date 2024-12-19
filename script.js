@@ -30,6 +30,24 @@ function processImage() {
     });
 }
 
+function runRealTimeVideo() {
+    fetch('/start-realtime-video', { method: 'POST' }).then(() => startLiveVideoFeed());
+}
+
+function stopProcessing() {
+    fetch('/stop-realtime-video', { method: 'POST' }).then(() => {
+        document.getElementById('live-video').style.display = 'none';
+    });
+}
+
+function startLiveVideoFeed() {
+    const video = document.getElementById('live-video');
+    video.style.display = 'block';
+    setInterval(() => {
+        video.src = `/live-video-frame?timestamp=${Date.now()}`;
+    }, 100);
+}
+
 function processVideo() {
     const fileInput = document.getElementById('video-upload');
     const file = fileInput.files[0];
