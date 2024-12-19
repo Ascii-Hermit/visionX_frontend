@@ -7,24 +7,27 @@
 </head>
 <body>
     <h1>Reflection Removal Interface</h1>
+
+    <!-- Image Upload Section -->
     <input type="file" id="image-upload" accept="image/*">
     <button onclick="processImage()">Upload and Process Image</button>
-
     <h2>Processed Image:</h2>
     <img id="processed-image" src="" alt="Processed Image" style="max-width: 100%; display: none;">
 
-    <!-- Buttons for Real-time Video -->
+    <!-- Video Upload Section -->
+    <h2>Upload and Process Video:</h2>
+    <input type="file" id="video-upload" accept="video/*">
+    <button onclick="processVideo()">Upload and Process Video</button>
+    <div id="video-container">
+        <h2>Processed Video:</h2>
+        <video id="processed-video" controls style="max-width: 100%; display: none;"></video>
+    </div>
+
+    <!-- Real-Time Video Section -->
+    <h2>Real-Time Video Processing:</h2>
     <div id="output-container">
         <button id="realtime-button" onclick="runRealTimeVideo()">Start Real-Time Video Processing</button>
         <button id="stop-button" onclick="stopProcessing()">Stop Processing</button>
-    </div>
-
-    <!-- Live Video Feedback -->
-    <div id="video-container">
-        <h2>Live Video Output:</h2>
-        <div id="video-feed">
-            <p>Real-time video will be displayed here.</p>
-        </div>
     </div>
 
     <script src="script.js"></script>
