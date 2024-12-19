@@ -30,6 +30,33 @@ function processImage() {
     });
 }
 
+function processVideo() {
+    const fileInput = document.getElementById('video-upload');
+    const file = fileInput.files[0];
+
+    if (!file) {
+        alert('Please select a video');
+        return;
+    }
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    fetch('http://127.0.0.1:5000/process-video', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.blob())
+    .then(blob => {
+        const url = URL.createObjectURL(blob);
+        window.open(url, '_blank'); // Open processed video in a new tab
+    })
+    .catch(error => {
+        console.error('Error processing video:', error);
+        alert('Error processing video');
+    });
+}
+
 function runRealTimeVideo() {
     fetch('http://127.0.0.1:5000/start-video', {
         method: 'POST'
